@@ -1,0 +1,32 @@
+- name: update packages
+  apt: upgrade=dist update_cache=yes
+
+- name: update firmware
+  shell: rpi-update
+
+- name: remove localtime
+  file: path=/etc/localtime state=absent
+
+- name: make symlink to JST
+  file: src=/usr/share/zoneinfo/Asia/Tokyo dest=/etc/localtime state=link force=yes mode=0644
+
+- name: update limits.conf
+  copy: src=limits.conf dest=/etc/security/limits.conf
+
+- name: update locale
+  locale_gen: name=ja_JP.UTF-8 state=present
+
+- name: update language
+  copy: src=.profile dest=/home/{{ ansible_ssh_user }}/.profile
+
+- name: update sysctl.conf
+  sysctl: name={{ item.name }} value={{ item.value }} sysctl_set=yes state=present reload=yes
+  with_items:
+    - {name: 'fs.file-max', value: '794573'}
+
+- name: start ntpd
+  service: name=ntp state=started
+
+- name: update ntp servers
+  copy: src=ntp.conf dest=/etc/ntp.conf
+  notify: restart ntpd
