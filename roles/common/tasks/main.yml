@@ -1,13 +1,13 @@
-- name: update packages
-  apt: upgrade=dist update_cache=yes
-
 - name: update firmware
   shell: rpi-update
+
+- name: update packages
+  apt: upgrade=dist update_cache=yes state=latest
 
 - name: remove localtime
   file: path=/etc/localtime state=absent
 
-- name: make symlink to JST
+- name: update localtime
   file: src=/usr/share/zoneinfo/Asia/Tokyo dest=/etc/localtime state=link force=yes mode=0644
 
 - name: update limits.conf
@@ -17,7 +17,7 @@
   locale_gen: name=ja_JP.UTF-8 state=present
 
 - name: update language
-  copy: src=.profile dest=/home/{{ ansible_ssh_user }}/.profile
+  copy: src=pi.default dest=/etc/default/{{ ansible_ssh_user }}
 
 - name: update sysctl.conf
   sysctl: name={{ item.name }} value={{ item.value }} sysctl_set=yes state=present reload=yes
@@ -25,8 +25,18 @@
     - {name: 'fs.file-max', value: '794573'}
 
 - name: start ntpd
-  service: name=ntp state=started
+  service: name=ntp state=started enabled=yes
 
 - name: update ntp servers
   copy: src=ntp.conf dest=/etc/ntp.conf
   notify: restart ntpd
+
+- name: install iptables-persistent
+  apt: name=iptables-persistent state=latest
+
+- name: start iptables-persistent
+  service: name=iptables-persistent state=started enabled=yes
+
+- name: update iptable
+  template: src=rules.v4.j2 dest=/etc/iptables/rules.v4
+  notify: restart iptables-persistent

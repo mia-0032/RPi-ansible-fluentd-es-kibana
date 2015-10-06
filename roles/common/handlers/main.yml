@@ -1,2 +1,5 @@
 - name: restart ntpd
   service: name=ntp state=restarted
+
+- name: restart iptables-persistent
+  service: name=iptables-persistent state=restarted
