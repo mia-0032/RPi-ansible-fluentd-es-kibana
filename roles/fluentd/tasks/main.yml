@@ -1,0 +1,28 @@
+- name: install fluentd
+  gem: name={{ item }}
+       executable=/home/{{ ansible_ssh_user }}/.rbenv/versions/{{ ruby_version }}/bin/gem
+  with_items:
+    - fluent-plugin-secure-forward
+    - fluent-plugin-rewrite-tag-filter
+    - fluent-plugin-record-reformer
+    - fluent-plugin-record-modifier
+    - fluent-plugin-forest
+    - fluent-plugin-rewrite
+
+- name: create log directory
+  file: path=/var/log/fluent state=directory mode=0777
+
+- name: create conf directory
+  file: path=/etc/fluent/conf.d state=directory mode=0755 recurse=yes
+
+- name: update fluent.conf
+  copy: src=fluent.conf dest=/etc/fluent/fluent.conf
+  notify: restart fluentd
+
+- name: update fluent.conf
+  copy: src=fluent.conf dest=/etc/fluent/fluent.conf
+  notify: restart fluentd
+
+- name: daemonize fluentd
+  copy: src=fluentd.conf dest=/etc/supervisor/conf.d/fluentd.conf
+  notify: restart fluentd

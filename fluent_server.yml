@@ -5,4 +5,4 @@
     - common
     - supervisord
     - rbenv
-#    - fluentd
+    - fluentd

@@ -35,13 +35,9 @@
   sudo: no
   ignore_errors: yes
   register: ruby_installed
-  tags:
-    - rbenv
 
 - name: install ruby
   shell: $SHELL -lc "rbenv install {{ ruby_version }}"
   sudo: no
   when:
     - ruby_installed.rc != 0
-  tags:
-    - rbenv
