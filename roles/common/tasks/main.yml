@@ -17,7 +17,7 @@
   locale_gen: name=ja_JP.UTF-8 state=present
 
 - name: update language
-  copy: src=pi.default dest=/etc/default/{{ ansible_ssh_user }}
+  lineinfile: dest=/home/{{ ansible_ssh_user }}/.profile line="export LANG=ja_JP.UTF-8"
 
 - name: update sysctl.conf
   sysctl: name={{ item.name }} value={{ item.value }} sysctl_set=yes state=present reload=yes
