@@ -1,9 +1,0 @@
-- hosts: visualize_server
-  remote_user: pi
-  sudo: yes
-  roles:
-    - common
-#    - fluentd
-#    - elasticsearch
-#    - kibana
-#    - nginx

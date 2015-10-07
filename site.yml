@@ -1,1 +1,1 @@
-- include: visualize_server.yml
+- include: fluent_server.yml

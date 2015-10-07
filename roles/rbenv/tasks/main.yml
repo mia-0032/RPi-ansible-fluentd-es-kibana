@@ -1,0 +1,47 @@
+- name: install packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - autoconf
+    - bison
+    - build-essential
+    - libssl-dev
+    - libyaml-dev
+    - libreadline6-dev
+    - zlib1g-dev
+    - libncurses5-dev
+    - libffi-dev
+    - libgdbm3
+    - libgdbm-dev
+
+- name: checkout rbenv
+  git: repo=https://github.com/sstephenson/rbenv.git
+       dest=/home/{{ ansible_ssh_user }}/.rbenv
+       accept_hostkey=true
+
+- name: checkout ruby-build
+  git: repo=https://github.com/sstephenson/ruby-build.git
+       dest=/home/{{ ansible_ssh_user }}/.rbenv/plugins/ruby-build
+       accept_hostkey=true
+
+- name: add rbenv init
+  lineinfile: dest=/home/{{ ansible_ssh_user }}/.profile line='{{ item }}'
+  with_items:
+    - "export RBENV_ROOT=$HOME/.rbenv"
+    - 'export PATH="$RBENV_ROOT/bin:$PATH"'
+    - "export RBENV_VERSION={{ ruby_version }}"
+
+- name: check installed ruby versions
+  shell: $SHELL -lc "rbenv versions | grep {{ ruby_version }}"
+  sudo: no
+  ignore_errors: yes
+  register: ruby_installed
+  tags:
+    - rbenv
+
+- name: install ruby
+  shell: $SHELL -lc "rbenv install {{ ruby_version }}"
+  sudo: no
+  when:
+    - ruby_installed.rc != 0
+  tags:
+    - rbenv

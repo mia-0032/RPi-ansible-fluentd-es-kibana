@@ -1,0 +1,8 @@
+- hosts: fluent_server
+  remote_user: pi
+  sudo: yes
+  roles:
+    - common
+    - supervisord
+    - rbenv
+#    - fluentd

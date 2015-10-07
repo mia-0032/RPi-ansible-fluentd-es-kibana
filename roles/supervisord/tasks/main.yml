@@ -1,0 +1,9 @@
+- name: install supervisord
+  apt: name=supervisor state=latest
+
+- name: start supervisord
+  service: name=supervisor state=started enabled=yes
+
+- name: update supervisord.conf
+  copy: src=supervisord.conf dest=/etc/supervisor/supervisord.conf
+  notify: restart supervisord
