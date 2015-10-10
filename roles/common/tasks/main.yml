@@ -1,8 +1,8 @@
-- name: update firmware
-  shell: rpi-update
-
 - name: update packages
   apt: upgrade=dist update_cache=yes state=latest
+
+- name: update firmware
+  shell: rpi-update
 
 - name: remove localtime
   file: path=/etc/localtime state=absent

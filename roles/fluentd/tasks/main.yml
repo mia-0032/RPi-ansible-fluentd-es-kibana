@@ -1,7 +1,9 @@
 - name: install fluentd
+  sudo: no
   gem: name={{ item }}
        executable=/home/{{ ansible_ssh_user }}/.rbenv/versions/{{ ruby_version }}/bin/gem
   with_items:
+    - fluentd
     - fluent-plugin-secure-forward
     - fluent-plugin-rewrite-tag-filter
     - fluent-plugin-record-reformer
