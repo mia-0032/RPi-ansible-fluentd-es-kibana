@@ -14,11 +14,13 @@
     - libgdbm-dev
 
 - name: checkout rbenv
+  sudo: no
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/home/{{ ansible_ssh_user }}/.rbenv
        accept_hostkey=true
 
 - name: checkout ruby-build
+  sudo: no
   git: repo=https://github.com/sstephenson/ruby-build.git
        dest=/home/{{ ansible_ssh_user }}/.rbenv/plugins/ruby-build
        accept_hostkey=true
