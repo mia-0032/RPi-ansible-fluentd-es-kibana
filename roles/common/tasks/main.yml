@@ -40,3 +40,7 @@
 - name: update iptable
   template: src=rules.v4.j2 dest=/etc/iptables/rules.v4
   notify: restart iptables-persistent
+
+- name: update sshd config
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config
+  notify: restart sshd
