@@ -43,3 +43,12 @@ describe iptables do
   it { should have_rule('-A INPUT -p tcp -m state --state NEW -m tcp --dport 24224 -j ACCEPT') }
   it { should have_rule('-A INPUT -p udp -m state --state NEW -m udp --dport 24224 -j ACCEPT') }
 end
+
+describe file('/etc/ssh/sshd_config') do
+  it { should be_file }
+  its(:content) { should match /^Protocol\s+2/ }
+  its(:content) { should match /^PermitRootLogin\s+no/ }
+  its(:content) { should match /^PermitEmptyPasswords\s+no/ }
+  its(:content) { should match /^ChallengeResponseAuthentication\s+no/ }
+  its(:content) { should match /^PasswordAuthentication\s+no/ }
+end
