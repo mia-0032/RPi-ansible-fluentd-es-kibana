@@ -34,3 +34,12 @@ describe command('ntpq -p') do
   let(:disable_sudo) { true }
   its(:stdout) { should match /\.nict\.go\./ }
 end
+
+describe iptables do
+  it { should have_rule('-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT') }
+  it { should have_rule('-A INPUT -p udp -m state --state NEW -m udp --dport 5353 -j ACCEPT') }
+  it { should have_rule('-A INPUT -p tcp -m state --state NEW -m tcp --dport 8888 -j ACCEPT') }
+  it { should have_rule('-A INPUT -p tcp -m state --state NEW -m tcp --dport 24220 -j ACCEPT') }
+  it { should have_rule('-A INPUT -p tcp -m state --state NEW -m tcp --dport 24224 -j ACCEPT') }
+  it { should have_rule('-A INPUT -p udp -m state --state NEW -m udp --dport 24224 -j ACCEPT') }
+end
