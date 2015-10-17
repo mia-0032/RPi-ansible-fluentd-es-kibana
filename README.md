@@ -1,7 +1,10 @@
 ## raspberrypi-fluentd-ansible
-Configuring basic Linux settings and 
-installing [fluentd](http://www.fluentd.org/) using [Ansible](http://www.ansible.com/) 
-and testing using [Serverspec](http://serverspec.org/) to Raspberry Pi.
+
+This script make below to your Raspberry Pi.
+
+- Configure basic Linux settings ([Ansible](http://www.ansible.com/)).
+- Install [fluentd](http://www.fluentd.org/) ([Ansible](http://www.ansible.com/)).
+- Test ([Serverspec](http://serverspec.org/)).
 
 ### Prepare
 
