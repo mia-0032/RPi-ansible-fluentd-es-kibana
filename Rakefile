@@ -1,27 +1,36 @@
 require 'rake'
 require 'rspec/core/rake_task'
+require 'yaml'
+require 'ansible_spec'
 
-task :spec    => 'spec:all'
-task :default => :spec
+properties = AnsibleSpec.get_properties
+p properties
+# {"name"=>"Ansible-Sample-TDD", "hosts"=>["192.168.0.103","192.168.0.103"], "user"=>"root", "roles"=>["nginx", "mariadb"]}
+# {"name"=>"Ansible-Sample-TDD", "hosts"=>[{"name" => "192.168.0.103:22","uri"=>"192.168.0.103","port"=>22, "private_key"=> "~/.ssh/id_rsa"}], "user"=>"root", "roles"=>["nginx", "mariadb"]}
 
-namespace :spec do
-  targets = []
-  Dir.glob('./spec/*').each do |dir|
-    next unless File.directory?(dir)
-    target = File.basename(dir)
-    target = "_#{target}" if target == "default"
-    targets << target
-  end
-
-  task :all     => targets
-  task :default => :all
-
-  targets.each do |target|
-    original_target = target == "_default" ? target[1..-1] : target
-    desc "Run serverspec tests to #{original_target}"
-    RSpec::Core::RakeTask.new(target.to_sym) do |t|
-      ENV['TARGET_HOST'] = original_target
-      t.pattern = "spec/#{original_target}/*_spec.rb"
+namespace :serverspec do
+  properties.each do |property|
+    property["hosts"].each do |host|
+      desc "Run serverspec for #{property["name"]}"
+      RSpec::Core::RakeTask.new(property["name"].to_sym) do |t|
+        puts "Run serverspec for #{property["name"]} to #{host}"
+        if host.instance_of?(Hash)
+          ENV['TARGET_HOST'] = host["uri"]
+          ENV['TARGET_PORT'] = host["port"].to_s
+          ENV['TARGET_PRIVATE_KEY'] = host["private_key"]
+          unless host["user"].nil?
+            ENV['TARGET_USER'] = host["user"]
+          else
+            ENV['TARGET_USER'] = property["user"]
+          end
+        else
+          ENV['TARGET_HOST'] = host
+          ENV['TARGET_PRIVATE_KEY'] = '~/.ssh/id_rsa'
+          ENV['TARGET_USER'] = property["user"]
+        end
+        t.pattern = 'roles/{' + property["roles"].join(',') + '}/spec/*_spec.rb'
+      end
     end
   end
 end
+

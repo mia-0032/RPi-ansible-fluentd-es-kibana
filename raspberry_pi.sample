@@ -1,2 +1,2 @@
 [fluent_server]
-raspberrypi_host:22
+raspberrypi_host ansible_ssh_port=22 ansible_ssh_user=pi
