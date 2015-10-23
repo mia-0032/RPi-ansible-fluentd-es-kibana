@@ -1,2 +1,2 @@
-[fluent_server]
+[iot_server]
 raspberrypi_host ansible_ssh_port=22 ansible_ssh_user=pi

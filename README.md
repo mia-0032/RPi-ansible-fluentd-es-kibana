@@ -1,4 +1,4 @@
-## raspberrypi-fluentd-ansible
+## raspberrypi-IoT-ansible
 
 This script make below to your Raspberry Pi.
 
@@ -25,5 +25,5 @@ Execute below commands on your PC.
 
 ```shell
 $ ansible-playbook -i raspberry_pi site.yml
-$ bundle exec rake serverspec:fluentd
+$ bundle exec rake serverspec:iot
 ```

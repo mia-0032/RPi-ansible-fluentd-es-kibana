@@ -1,5 +1,5 @@
-- name: fluentd
-  hosts: fluent_server
+- name: iot
+  hosts: iot_server
   sudo: yes
   roles:
     - common
