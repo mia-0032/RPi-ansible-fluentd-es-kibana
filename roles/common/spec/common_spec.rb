@@ -15,6 +15,10 @@ describe file('.profile') do
   its(:content) { should match /export LANG=ja_JP\.UTF-8/ }
 end
 
+describe file('/etc/cron.d/cron-apt') do
+  its(:content) { should match /0\s+4\s+\*\s+\*\s+\*\s+root\s+test -x \/usr\/sbin\/cron-apt && \/usr\/sbin\/cron-apt/ }
+end
+
 describe 'Linux kernel parameters' do
   context linux_kernel_parameter('fs.file-max') do
     its(:value) { should eq 794573 }

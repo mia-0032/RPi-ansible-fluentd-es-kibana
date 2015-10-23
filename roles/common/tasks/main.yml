@@ -1,8 +1,17 @@
 - name: update packages
   apt: upgrade=dist update_cache=yes state=latest
 
+- name: install rpi-update
+  apt: name=rpi-update state=latest
+
 - name: update firmware
   shell: rpi-update
+
+- name: auto update packages
+  apt: name=cron-apt state=latest
+
+- name: update auto update conf
+  copy: src=3-download dest=/etc/cron-apt/action.d/3-download
 
 - name: remove localtime
   file: path=/etc/localtime state=absent
