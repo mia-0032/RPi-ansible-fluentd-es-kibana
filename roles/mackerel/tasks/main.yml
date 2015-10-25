@@ -1,0 +1,25 @@
+---
+- name: download mackerel-agent
+  get_url: url=https://github.com/mackerelio/mackerel-agent/releases/download/{{ mackerel_version }}/mackerel-agent_linux_arm.tar.gz
+           dest=/tmp/mackerel-agent_linux_arm.tar.gz
+
+- name: unarchive mackerel-agent
+  unarchive: src=/tmp/mackerel-agent_linux_arm.tar.gz dest=/opt copy=no
+
+- name: create mackerel-agent conf directry
+  file: path=/etc/mackerel-agent state=directory mode=0755
+
+- name: create mackerel-agent log directry
+  file: path=/var/log/mackerel-agent state=directory mode=0755
+
+- name: update mackerel-agent.conf
+  template: src=mackerel-agent.conf.j2 dest=/etc/mackerel-agent/mackerel-agent.conf
+  notify: restart mackerel-agent
+
+- name: update mackerel-agentd.conf
+  copy: src=mackerel-agentd.conf dest=/etc/supervisor/conf.d/mackerel-agentd.conf
+  notify: restart mackerel-agent
+
+- name: daemonize mackerel-agent
+  supervisorctl: name=mackerel-agentd state=present
+  notify: restart mackerel-agent
