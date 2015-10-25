@@ -6,3 +6,4 @@
     - rbenv
     - supervisord
     - fluentd
+    - mackerel
