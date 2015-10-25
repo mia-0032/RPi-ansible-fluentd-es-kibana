@@ -25,6 +25,10 @@
   copy: src=fluent.conf dest=/etc/fluent/fluent.conf
   notify: restart fluentd
 
-- name: daemonize fluentd
+- name: update fluentd.conf
   copy: src=fluentd.conf dest=/etc/supervisor/conf.d/fluentd.conf
+  notify: restart fluentd
+
+- name: daemonize fluentd
+  supervisorctl: name=fluentd state=present
   notify: restart fluentd
