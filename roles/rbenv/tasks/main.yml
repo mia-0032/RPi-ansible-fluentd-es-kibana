@@ -17,19 +17,19 @@
   sudo: no
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/home/{{ ansible_ssh_user }}/.rbenv
-       accept_hostkey=true
+       accept_hostkey=yes update=yes
 
 - name: checkout ruby-build
   sudo: no
   git: repo=https://github.com/sstephenson/ruby-build.git
        dest=/home/{{ ansible_ssh_user }}/.rbenv/plugins/ruby-build
-       accept_hostkey=true
+       accept_hostkey=yes update=yes
 
 - name: add rbenv init
   lineinfile: dest=/home/{{ ansible_ssh_user }}/.profile line='{{ item }}'
   with_items:
     - "export RBENV_ROOT=$HOME/.rbenv"
-    - 'export PATH="$RBENV_ROOT/bin:$PATH"'
+    - 'export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"'
     - "export RBENV_VERSION={{ ruby_version }}"
 
 - name: check installed ruby versions

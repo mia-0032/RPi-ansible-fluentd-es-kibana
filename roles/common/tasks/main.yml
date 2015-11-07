@@ -1,14 +1,16 @@
 - name: update packages
   apt: upgrade=dist update_cache=yes state=latest
 
-- name: install rpi-update
-  apt: name=rpi-update state=latest
+- name: install packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - rpi-update
+    - cron-apt
+    - iptables-persistent
+    - sysv-rc-conf
 
 - name: update firmware
   shell: rpi-update
-
-- name: auto update packages
-  apt: name=cron-apt state=latest
 
 - name: update auto update conf
   copy: src=3-download dest=/etc/cron-apt/action.d/3-download
@@ -39,9 +41,6 @@
 - name: update ntp servers
   copy: src=ntp.conf dest=/etc/ntp.conf
   notify: restart ntpd
-
-- name: install iptables-persistent
-  apt: name=iptables-persistent state=latest
 
 - name: start iptables-persistent
   service: name=iptables-persistent state=started enabled=yes
