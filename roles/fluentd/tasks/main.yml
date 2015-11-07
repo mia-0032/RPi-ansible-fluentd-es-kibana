@@ -1,6 +1,6 @@
 - name: install fluentd
   sudo: no
-  gem: name={{ item }}
+  gem: name={{ item }} user_install=no
        executable=/home/{{ ansible_ssh_user }}/.rbenv/versions/{{ ruby_version }}/bin/gem
   with_items:
     - fluentd
