@@ -1,2 +1,0 @@
-- name: restart mackerel-agent
-  supervisorctl: name=mackerel-agentd state=restarted

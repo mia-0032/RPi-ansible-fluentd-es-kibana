@@ -1,2 +1,2 @@
-[iot_server]
-raspberrypi_host ansible_ssh_port=22 ansible_ssh_user=pi mackerel_api_key=xxxxxxx
+[fluentd_server]
+raspberrypi_host ansible_ssh_port=22 ansible_ssh_user=pi

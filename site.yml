@@ -1,1 +1,1 @@
-- include: iot_server.yml
+- include: fluentd_server.yml

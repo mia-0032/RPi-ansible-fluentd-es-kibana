@@ -1,4 +1,4 @@
-## raspberrypi-IoT-ansible
+## raspberrypi-fluentd-ansible
 
 This script make below to your Raspberry Pi.
 
@@ -8,7 +8,7 @@ This script make below to your Raspberry Pi.
 
 ### Prepare
 
-1. Install Rasbian OS to your Raspberry Pi.
+1. Install RASPBIAN(JESSIE) to your Raspberry Pi.
 1. Configure public key authentication.
 1. Clone this repository. 
 1. Rename `raspberry_pi.sample` to `raspberry_pi` and edit ssh host, port and user. If you need Mackerel, edit `mackerel_api_key`.

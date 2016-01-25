@@ -1,9 +1,8 @@
-- name: iot
-  hosts: iot_server
+- name: fluentd
+  hosts: fluentd_server
   sudo: yes
   roles:
     - common
     - rbenv
     - supervisord
     - fluentd
-    - mackerel
