@@ -1,0 +1,16 @@
+- name: update packages
+  apt: upgrade=dist update_cache=yes state=latest
+
+- name: install packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - rpi-update
+    - cron-apt
+    - ufw
+    - git
+
+- name: update firmware
+  shell: rpi-update
+
+- name: update auto update conf
+  copy: src=3-download dest=/etc/cron-apt/action.d/3-download

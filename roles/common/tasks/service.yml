@@ -1,0 +1,19 @@
+- name: update ntp servers
+  copy: src=ntp.conf dest=/etc/ntp.conf
+
+- name: enable ntpd
+  service: name=ntp enabled=yes
+
+- name: update sshd config
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config
+  notify: restart sshd
+
+- name: enable cron
+  service: name=cron enabled=yes
+
+- name: restart services
+  service: name={{ item }} state=restarted
+  with_items:
+    - ntp
+    - ssh
+    - cron
