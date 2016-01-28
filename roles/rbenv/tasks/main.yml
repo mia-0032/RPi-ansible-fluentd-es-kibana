@@ -14,13 +14,13 @@
     - libgdbm-dev
 
 - name: checkout rbenv
-  sudo: no
+  become: no
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/home/{{ ansible_ssh_user }}/.rbenv
        accept_hostkey=yes update=yes
 
 - name: checkout ruby-build
-  sudo: no
+  become: no
   git: repo=https://github.com/sstephenson/ruby-build.git
        dest=/home/{{ ansible_ssh_user }}/.rbenv/plugins/ruby-build
        accept_hostkey=yes update=yes
@@ -34,12 +34,12 @@
 
 - name: check installed ruby versions
   shell: $SHELL -lc "rbenv versions | grep {{ ruby_version }}"
-  sudo: no
+  become: no
   ignore_errors: yes
   register: ruby_installed
 
 - name: install ruby
   shell: $SHELL -lc "rbenv install {{ ruby_version }}"
-  sudo: no
+  become: no
   when:
     - ruby_installed.rc != 0

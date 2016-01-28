@@ -1,6 +1,6 @@
 - name: fluentd
   hosts: fluentd_server
-  sudo: yes
+  become: yes
   roles:
     - common
     - rbenv
