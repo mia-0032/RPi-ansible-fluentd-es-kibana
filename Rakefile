@@ -32,4 +32,3 @@ namespace :serverspec do
     end
   end
 end
-
