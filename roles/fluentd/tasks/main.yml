@@ -1,5 +1,5 @@
 - name: install fluentd
-  sudo: no
+  become: no
   gem: name={{ item }} user_install=no
        executable=/home/{{ ansible_ssh_user }}/.rbenv/versions/{{ ruby_version }}/bin/gem
   with_items:
@@ -19,16 +19,15 @@
 
 - name: update fluent.conf
   copy: src=fluent.conf dest=/etc/fluent/fluent.conf
-  notify: restart fluentd
 
 - name: update fluent.conf
   copy: src=fluent.conf dest=/etc/fluent/fluent.conf
-  notify: restart fluentd
 
 - name: update fluentd.conf
-  copy: src=fluentd.conf dest=/etc/supervisor/conf.d/fluentd.conf
-  notify: restart fluentd
+  template: src=fluentd.conf.j2 dest=/etc/supervisor/conf.d/fluentd.conf
 
 - name: daemonize fluentd
   supervisorctl: name=fluentd state=present
-  notify: restart fluentd
+
+- name: restart fluentd
+  supervisorctl: name=fluentd state=restarted

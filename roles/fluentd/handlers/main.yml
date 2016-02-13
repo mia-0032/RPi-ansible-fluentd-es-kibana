@@ -1,2 +1,0 @@
-- name: restart fluentd
-  supervisorctl: name=fluentd state=restarted
