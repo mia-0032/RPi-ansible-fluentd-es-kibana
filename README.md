@@ -15,7 +15,7 @@ This script make below to your Raspberry Pi.
 1. Install `ansible` / `serverspec` by below command.
 
 ```shell
-$ pip install -r requirements.txt
+$ pip install ansible
 $ bundle install
 ```
 
